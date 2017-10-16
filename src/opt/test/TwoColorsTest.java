@@ -1,30 +1,17 @@
 package opt.test;
 
-import java.util.Arrays;
-
 import dist.DiscreteDependencyTree;
 import dist.DiscreteUniformDistribution;
 import dist.Distribution;
-
-import opt.DiscreteChangeOneNeighbor;
-import opt.EvaluationFunction;
-import opt.GenericHillClimbingProblem;
-import opt.HillClimbingProblem;
-import opt.NeighborFunction;
-import opt.RandomizedHillClimbing;
-import opt.SimulatedAnnealing;
-import opt.example.*;
-import opt.ga.CrossoverFunction;
-import opt.ga.DiscreteChangeOneMutation;
-import opt.ga.GenericGeneticAlgorithmProblem;
-import opt.ga.GeneticAlgorithmProblem;
-import opt.ga.MutationFunction;
-import opt.ga.StandardGeneticAlgorithm;
-import opt.ga.UniformCrossOver;
+import opt.*;
+import opt.example.TwoColorsEvaluationFunction;
+import opt.ga.*;
 import opt.prob.GenericProbabilisticOptimizationProblem;
 import opt.prob.MIMIC;
 import opt.prob.ProbabilisticOptimizationProblem;
 import shared.FixedIterationTrainer;
+
+import java.util.Arrays;
 
 /**
  * @author Daniel Cohen dcohen@gatech.edu
@@ -59,7 +46,7 @@ public class TwoColorsTest {
         fit.train();
         System.out.println(ef.value(sa.getOptimal()));
         
-        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(20, 20, 0, gap);
+        StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 100, 0, gap);
         fit = new FixedIterationTrainer(ga, 100);
         fit.train();
         System.out.println(ef.value(ga.getOptimal()));

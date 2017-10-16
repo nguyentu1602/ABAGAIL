@@ -7,6 +7,8 @@ import util.linalg.Vector;
 import java.math.BigInteger;
 import java.util.BitSet;
 
+
+
 /**
  * A Rastrigin function
  * @author Andrew Guillory gtg008g@mail.gatech.edu
@@ -16,7 +18,7 @@ public class RastriginEvaluationFunction implements EvaluationFunction {
     /**
      * The constant A
      */
-    private double A = 10.0;
+    private double A = 1000.0;
 
     public RastriginEvaluationFunction() {}
 
@@ -77,11 +79,12 @@ public class RastriginEvaluationFunction implements EvaluationFunction {
         Vector first_half  = data.get(0,  32);
         Vector second_half = data.get(32, 64);
 
-        float x = convert32BitVecToFloat(first_half);
-        float y = convert32BitVecToFloat(second_half);
-        System.out.println(x);
+        float x = convert32BitVecToFloat(first_half)  - 0.15625f;
+        float y = convert32BitVecToFloat(second_half) - 0.15625f;
+//        double y2 = Math.pow(y, 2);
+//        double x2 = Math.pow(x, 2);
 
-
-        return Math.pow(x,2) - A*Math.cos(x*2*Math.PI) + Math.pow(y,2) - A*Math.cos(y*2*Math.PI);
+        return -Math.pow(x,2) + A*Math.cos(x*2*Math.PI) - Math.pow(y,2) + A*Math.cos(y*2*Math.PI);
+//        return - (0.5 + (Math.pow(Math.sin(x2 - y2),2) - 0.5)/(1 + 0.001*(x2 + y2))/(1 + 0.001*(x2 + y2)))*10000;
     }
 }

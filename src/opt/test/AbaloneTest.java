@@ -22,10 +22,11 @@ import java.text.*;
 public class AbaloneTest {
     private static Instance[] instances = initializeInstances();
 
-    private static int inputLayer = 7, hiddenLayer = 5, outputLayer = 1, trainingIterations = 1000;
+    private static int inputLayer = 7, hiddenLayer1 = 20, hiddenLayer2 = 12, outputLayer = 1, trainingIterations = 100;
     private static BackPropagationNetworkFactory factory = new BackPropagationNetworkFactory();
     
-    private static ErrorMeasure measure = new SumOfSquaresError();
+//    private static ErrorMeasure measure = new SumOfSquaresError();
+    private static ErrorMeasure measure = new BinaryClassificationEntropyError();
 
     private static DataSet set = new DataSet(instances);
 
@@ -41,13 +42,13 @@ public class AbaloneTest {
     public static void main(String[] args) {
         for(int i = 0; i < oa.length; i++) {
             networks[i] = factory.createClassificationNetwork(
-                new int[] {inputLayer, hiddenLayer, outputLayer});
+                new int[] {inputLayer, hiddenLayer1, hiddenLayer2, outputLayer});
             nnop[i] = new NeuralNetworkOptimizationProblem(set, networks[i], measure);
         }
 
         oa[0] = new RandomizedHillClimbing(nnop[0]);
         oa[1] = new SimulatedAnnealing(1E11, .95, nnop[1]);
-        oa[2] = new StandardGeneticAlgorithm(200, 100, 10, nnop[2]);
+        oa[2] = new StandardGeneticAlgorithm(100, 50, 5, nnop[2]);
 
         for(int i = 0; i < oa.length; i++) {
             double start = System.nanoTime(), end, trainingTime, testingTime, correct = 0, incorrect = 0;
@@ -100,7 +101,7 @@ public class AbaloneTest {
                 error += measure.value(output, example);
             }
 
-            System.out.println(df.format(error));
+            System.out.println( i + ": " + df.format(error/instances.length));
         }
     }
 
